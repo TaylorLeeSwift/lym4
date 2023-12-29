@@ -1,5 +1,5 @@
 Flask
-Flask-SQLAlchemy==3.1.1
+Flask-SQLAlchemy
 pandas
 scikit-learn
-SQLAlchemy==1.4.25
+SQLAlchemy
