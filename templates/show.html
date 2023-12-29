@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pie Chart</title>
+    <!-- 引入 Chart.js 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Yiming Li 6417   Yilong Xiao 6029</h1>
+    <div id="pieChartContainer">
+        <canvas id="myPieChart"></canvas>
+    </div>
+
+    <!-- 在这里添加你的 JavaScript 代码 -->
+    <script>
+        // 使用 Flask 传递的数据
+        const backendData = {{ data_from_backend | tojson | safe }};
+        // 根据标签大小排序
+        backendData.sort(function(a, b) {
+            return a[0] - b[0];
+        });
+        // 分离标签和值
+        var labels = backendData.map(function(item) {
+            return "cluster " + item[0];
+        });
+
+        var values = backendData.map(function(item) {
+            return item[1];
+        });
+
+        // 获取饼图容器和上下文
+        var pieChartContainer = document.getElementById('myPieChart');
+        var ctx = pieChartContainer.getContext('2d');
+
+        // 使用 Chart.js 创建饼图
+        var myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: [
+                            'rgba(255, 99, 132, 0.8)',
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(255, 206, 86, 0.8)',
+                            'rgba(75, 192, 192, 0.8)',
+                            'rgba(153, 102, 255, 0.8)',
+                            'rgba(255, 159, 64, 0.8)'
+                    ],
+                }],
+
+            },
+            options: {
+                    title: {
+                        display: true,
+                        text: 'Pie Chart',
+                        fontSize: 16,
+                    },
+            },
+        });
+    </script>
+
+</body>
+</html>

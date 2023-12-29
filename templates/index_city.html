@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>City Distance Calculator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<h1>Yiming Li 6417   Yilong Xiao 6029</h1>
+    <h1 class="mt-5">City Distance Calculator</h1>
+    <form method="POST" class="mt-3">
+        <label for="city">City Name:</label>
+        <input type="text" id="city" name="city" required>
+        <br>
+        <label for="state">State Name:</label>
+        <input type="text" id="state" name="state" required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    <br>
+    <div>
+        <canvas id="distanceChart" width="400" height="200"></canvas>
+        <p>Response Time: <span id="responseTime">0</span> ms</p>
+    </div>
+    <script>
+        // 获取从服务器传递的数据
+var data = {{ data | safe }};
+var distances = data.distances.slice(0, 50);  // 仅选择前50个城市的数据
+var responseTime = data.response_time;
+
+// 更新响应时间
+document.getElementById('responseTime').textContent = responseTime;
+
+// 绘制条形图
+var ctx = document.getElementById('distanceChart').getContext('2d');
+var chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: distances.map(function (d, i) { return i + 1; }),
+        datasets: [{
+            label: 'Distances to Target City',
+            data: distances,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Distance (in miles)'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'City'
+                }
+            }
+        }
+    }
+});
+    </script>
+</body>
+</html>
